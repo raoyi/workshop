@@ -11,3 +11,5 @@
 2. 识别英文则不用加lang参数
 3. 加 `r` 表示禁用转义字符
 4. 准备图片 `txt.jpg` 以供识别（名称随意，图片格式随意）
+
+网络帮助文档：https://www.cnblogs.com/zhangxinqi/p/9297292.html
