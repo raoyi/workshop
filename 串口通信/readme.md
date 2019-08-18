@@ -51,82 +51,80 @@ else:
 
 **十六进制处理：**
 
-复制代码
- 1 import serial #导入模块
- 2 try:
- 3   portx="COM3"
- 4   bps=115200
- 5   #超时设置,None：永远等待操作，0为立即返回请求结果，其他值为等待超时时间(单位为秒）
- 6   timex=None
- 7   ser=serial.Serial(portx,bps,timeout=timex)
- 8   print("串口详情参数：", ser)
- 9 
-10   #十六进制的发送
-11   result=ser.write(chr(0x06).encode("utf-8"))#写数据
-12   print("写总字节数:",result)
-13 
-14   #十六进制的读取
-15   print(ser.read().hex())#读一个字节
-16 
-17   print("---------------")
-18   ser.close()#关闭串口
-19 
-20 except Exception as e:
-21     print("---异常---：",e)
-复制代码
- 其他细节补充：
+```python
+import serial #导入模块
+try:
+  portx="COM3"
+  bps=115200
+  #超时设置,None：永远等待操作，0为立即返回请求结果，其他值为等待超时时间(单位为秒）
+  timex=None
+  ser=serial.Serial(portx,bps,timeout=timex)
+  print("串口详情参数：", ser)
 
-复制代码
- 1 import serial #导入模块
- 2 try:
- 3 
- 4   #端口，GNU / Linux上的/ dev / ttyUSB0 等 或 Windows上的 COM3 等
- 5   portx="COM3"
- 6   #波特率，标准值之一：50,75,110,134,150,200,300,600,1200,1800,2400,4800,9600,19200,38400,57600,115200
- 7   bps=115200
- 8   #超时设置,None：永远等待操作，0为立即返回请求结果，其他值为等待超时时间(单位为秒）
- 9   timex=5
-10   # 打开串口，并得到串口对象
-11   ser=serial.Serial(portx,bps,timeout=timex)
-12   print("串口详情参数：", ser)
-13 
-14 
-15 
-16   print(ser.port)#获取到当前打开的串口名
-17   print(ser.baudrate)#获取波特率
-18 
-19   result=ser.write("我是东小东".encode("gbk"))#写数据
-20   print("写总字节数:",result)
-21 
-22 
-23   #print(ser.read())#读一个字节
-24   # print(ser.read(10).decode("gbk"))#读十个字节
-25   #print(ser.readline().decode("gbk"))#读一行
-26   #print(ser.readlines())#读取多行，返回列表，必须匹配超时（timeout)使用
-27   #print(ser.in_waiting)#获取输入缓冲区的剩余字节数
-28   #print(ser.out_waiting)#获取输出缓冲区的字节数
-29 
-30   #循环接收数据，此为死循环，可用线程实现
-31   while True:
-32          if ser.in_waiting:
-33              str=ser.read(ser.in_waiting ).decode("gbk")
-34              if(str=="exit"):#退出标志
-35                  break
-36              else:
-37                print("收到数据：",str)
-38 
-39   print("---------------")
-40   ser.close()#关闭串口
-41 
-42 
-43 except Exception as e:
-44     print("---异常---：",e)
-复制代码
-部分封装：
+  #十六进制的发送
+  result=ser.write(chr(0x06).encode("utf-8"))#写数据
+  print("写总字节数:",result)
+
+  #十六进制的读取
+  print(ser.read().hex())#读一个字节
+
+  print("---------------")
+  ser.close()#关闭串口
+
+except Exception as e:
+    print("---异常---：",e)
+```
+
+**其他细节补充：**
+
+```python
+import serial #导入模块
+try:
+
+  #端口，GNU / Linux上的/ dev / ttyUSB0 等 或 Windows上的 COM3 等
+  portx="COM3"
+  #波特率，标准值之一：50,75,110,134,150,200,300,600,1200,1800,2400,4800,9600,19200,38400,57600,115200
+  bps=115200
+  #超时设置,None：永远等待操作，0为立即返回请求结果，其他值为等待超时时间(单位为秒）
+  timex=5
+  # 打开串口，并得到串口对象
+  ser=serial.Serial(portx,bps,timeout=timex)
+  print("串口详情参数：", ser)
+
+  print(ser.port)#获取到当前打开的串口名
+  print(ser.baudrate)#获取波特率
+
+  result=ser.write("我是东小东".encode("gbk"))#写数据
+  print("写总字节数:",result)
+
+  #print(ser.read())#读一个字节
+  # print(ser.read(10).decode("gbk"))#读十个字节
+  #print(ser.readline().decode("gbk"))#读一行
+  #print(ser.readlines())#读取多行，返回列表，必须匹配超时（timeout)使用
+  #print(ser.in_waiting)#获取输入缓冲区的剩余字节数
+  #print(ser.out_waiting)#获取输出缓冲区的字节数
+
+  #循环接收数据，此为死循环，可用线程实现
+  while True:
+         if ser.in_waiting:
+             str=ser.read(ser.in_waiting ).decode("gbk")
+             if(str=="exit"):#退出标志
+                 break
+             else:
+               print("收到数据：",str)
+
+  print("---------------")
+  ser.close()#关闭串口
+
+except Exception as e:
+    print("---异常---：",e)
+```
+
+**部分封装：**
 
 其中读数据的封装方法并不是很好用，使用的话又得循环接收，这样反而更加复杂了
 
-复制代码
+```python
  1 import serial #导入模块
  2 import threading
  3 STRGLO="" #读取的数据
@@ -193,3 +191,4 @@ else:
 64          print("写入字节数：",count)
 65          #DReadPort() #读串口数据
 66          #DColsePort(ser)  #关闭串口
+```
