@@ -8,48 +8,48 @@ pip install pyserial
 
 **测试：**
 
-两个CH340 （TTL转串口模块）接入到PC串口上，通过Python进行数据交互：
+两个CH340（TTL转串口模块）接入到PC串口上，通过Python进行数据交互：
 
+**简单串口程序实现：**
 
+```python
+import serial #导入模块
+try:
+  #端口，GNU / Linux上的/ dev / ttyUSB0 等 或 Windows上的 COM3 等
+  portx="COM3"
+  #波特率，标准值之一：50,75,110,134,150,200,300,600,1200,1800,2400,4800,9600,19200,38400,57600,115200
+  bps=115200
+  #超时设置,None：永远等待操作，0为立即返回请求结果，其他值为等待超时时间(单位为秒）
+  timex=5
+  # 打开串口，并得到串口对象
+  ser=serial.Serial(portx,bps,timeout=timex)
 
- 简单串口程序实现：
+  # 写数据
+  result=ser.write("我是东小东".encode("gbk"))
+  print("写总字节数:",result)
 
-复制代码
- 1 import serial #导入模块
- 2 try:
- 3   #端口，GNU / Linux上的/ dev / ttyUSB0 等 或 Windows上的 COM3 等
- 4   portx="COM3"
- 5   #波特率，标准值之一：50,75,110,134,150,200,300,600,1200,1800,2400,4800,9600,19200,38400,57600,115200
- 6   bps=115200
- 7   #超时设置,None：永远等待操作，0为立即返回请求结果，其他值为等待超时时间(单位为秒）
- 8   timex=5
- 9   # 打开串口，并得到串口对象
-10   ser=serial.Serial(portx,bps,timeout=timex)
-11 
-12   # 写数据
-13   result=ser.write("我是东小东".encode("gbk"))
-14   print("写总字节数:",result)
-15 
-16   ser.close()#关闭串口
-17 
-18 except Exception as e:
-19     print("---异常---：",e)
-复制代码
- 获取可用串口列表：
+  ser.close()#关闭串口
 
-复制代码
- 1 import serial #导入模块
- 2 
- 3 import serial.tools.list_ports
- 4 port_list = list(serial.tools.list_ports.comports())
- 5 print(port_list)
- 6 if len(port_list) == 0:
- 7    print('无可用串口')
- 8 else:
- 9     for i in range(0,len(port_list)):
-10         print(port_list[i])
-复制代码
-十六进制处理：
+except Exception as e:
+    print("---异常---：",e)
+```
+
+**获取可用串口列表：**
+
+```python
+import serial #导入模块
+
+import serial.tools.list_ports
+port_list = list(serial.tools.list_ports.comports())
+print(port_list)
+if len(port_list) == 0:
+   print('无可用串口')
+else:
+    for i in range(0,len(port_list)):
+        print(port_list[i])
+```
+
+**十六进制处理：**
 
 复制代码
  1 import serial #导入模块
