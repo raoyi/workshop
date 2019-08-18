@@ -188,4 +188,5 @@ if __name__=="__main__":
 *参考：*
 
 https://www.cnblogs.com/dongxiaodong/p/9992083.html
+
 https://pythonhosted.org/pyserial/pyserial_api.html
